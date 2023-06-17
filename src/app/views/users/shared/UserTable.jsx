@@ -11,7 +11,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import AddUsers from '../eventPage/AddUsers';
+import CreateUsers from '../eventPage/CreateUsers';
 import UpdateUser from '../eventPage/UpdateUser';
 
 const StyledTable = styled(Table)(() => ({
@@ -26,20 +26,20 @@ const StyledTable = styled(Table)(() => ({
 
 const PaginationTable = () => {
   // ----------DB FETCH START-------------------------
-  const [join, setJoin] = useState([]);
-  const fetchJoinData = () => {
-    fetch('http://localhost:5000/join')
+  const [getUser, setGetUser] = useState([]);
+  const fetchUserData = () => {
+    fetch('http://localhost:2000/all')
       .then((response) => {
-        console.log(' JOIN response');
+        console.log('response');
         return response.json();
       })
       .then((data) => {
-        console.log('inside JOIN data', data);
-        setJoin(data.response.results);
+        console.log('Get User data', data);
+        setGetUser(data.response.results);
       });
   };
   useEffect(() => {
-    fetchJoinData();
+    fetchUserData();
   }, []);
   // ----------DB FETCH END-------------------------
 
@@ -59,7 +59,7 @@ const PaginationTable = () => {
   return (
     <Box width="100%" overflow="auto">
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
-        <AddUsers />
+        <CreateUsers />
         {/* <IconButton sx={{ border: '2px solid green', backgroundColor: 'lightgreen' }}>
             <Icon color="success">add</Icon>
           </IconButton> */}
@@ -68,43 +68,24 @@ const PaginationTable = () => {
         <TableHead bgcolor="#e0f7fa">
           <TableRow>
             <TableCell align="center">SNO</TableCell>
-            <TableCell align="center">USER ID</TableCell>
+            <TableCell align="center">USER NAME</TableCell>
+            <TableCell align="center">EMAIL</TableCell>
+            <TableCell align="center">MOBILE</TableCell>
             <TableCell align="center">SUBJECT</TableCell>
-            <TableCell align="center">SUBSCRIPTION</TableCell>
-            <TableCell align="center">STATUS</TableCell>
             <TableCell align="center">ACTION</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {join
+          {getUser
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((joinUser, index) => {
+            .map((user, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell align="center">{joinUser.id}</TableCell>
-                  <TableCell align="center">{joinUser.name + ' ' + joinUser.lname}</TableCell>
-
-                  {joinUser.subject === 6 ? (
-                    <TableCell align="center">English</TableCell>
-                  ) : joinUser.subject === 13 ? (
-                    <TableCell align="center">GK</TableCell>
-                  ) : (
-                    <TableCell align="center">----</TableCell>
-                  )}
-
-                  {joinUser.subscription === 1 ? (
-                    <TableCell align="center">Weekly</TableCell>
-                  ) : (
-                    <TableCell align="center">{joinUser.subscription}</TableCell>
-                  )}
-
-                  {joinUser.status === 1 ? (
-                    <TableCell align="center">Active</TableCell>
-                  ) : joinUser.status === 0 ? (
-                    <TableCell align="center">Deactive</TableCell>
-                  ) : (
-                    <TableCell align="center">----</TableCell>
-                  )}
+                  <TableCell align="center">{user.sid}1</TableCell>
+                  <TableCell align="center">{user.sname}aashi</TableCell>
+                  <TableCell align="center">{user.semail}aashi765@gmail.com</TableCell>
+                  <TableCell align="center">{user.smob}837673656</TableCell>
+                  <TableCell align="center">{user.subject}C</TableCell>
 
                   <TableCell
                     align="center"
@@ -131,7 +112,7 @@ const PaginationTable = () => {
         page={page}
         component="div"
         rowsPerPage={rowsPerPage}
-        count={join.length}
+        count={getUser.length}
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}

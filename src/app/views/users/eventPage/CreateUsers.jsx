@@ -3,7 +3,7 @@ import { Box, Fab, IconButton, Icon } from '@mui/material';
 import { FormLabel, TextField, Button } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function AddUsers() {
+export default function CreateUsers() {
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
