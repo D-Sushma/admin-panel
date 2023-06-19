@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 })
 
 /**  Get All Items */
-app.get('/all', (req, res) => {
-    let query = "SELECT * FROM students";
+app.get('/users', (req, res) => {
+    let query = "SELECT * FROM user";
     con.query(query, (err, results) => {
         if (err) throw err;
         console.log(results);
@@ -33,7 +33,7 @@ app.get('/all', (req, res) => {
 
 // /*** Get Single Item ** @return response() api/items/:id*/
 app.get('/single/item/:id', (req, res) => {
-    let query = "SELECT * FROM students WHERE sid=" + req.params.id;
+    let query = "SELECT * FROM user WHERE uid=" + req.params.id;
     con.query(query, (err, results) => {
         if (err) throw err;
         console.log(results);
@@ -42,8 +42,8 @@ app.get('/single/item/:id', (req, res) => {
 });
 
 // /*** Create New Item *post* @return response() */
-app.get('/insert/items', (req, res) => {
-    let query = "INSERT INTO students (sname, semail, smob, subject) VALUES ('aarti','arti123@gmail.com',8764787665,'DBMS')";
+app.get('/insert', (req, res) => {
+    let query = "INSERT INTO user (uname, uemail, umob, uaddress) VALUES ('aarti','arti123@gmail.com',8764787665,'DBMS')";
     con.query(query, (err, results) => {
         if (err) throw err;
         console.log(results)
@@ -52,14 +52,41 @@ app.get('/insert/items', (req, res) => {
 });
 
 // ** INSERT by POST method
-app.post('/test', (req, res) => {
-    let sname = req.body.sname;
-    let semail = req.body.semail;
-    let smob = req.body.smob;
-    let subject = req.body.subject;
-    let query = `INSERT INTO students (sname,semail,smob,subject) VALUES ('${sname}','${semail}','${smob}','${subject}')`;
-    // let query = "INSERT INTO students (name, subject, contact) VALUES('" + sname + "',,'" + semail + "',,'" + smob + "','" + subject + "')";
+app.post('/insert/items', (req, res) => {
+    let uname = req.body.uname;
+    let uemail = req.body.uemail;
+    let umob = req.body.umob;
+    let uaddress = req.body.uaddress;
+    let query = `INSERT INTO user (uname,uemail,umob,uaddress) VALUES ('${uname}','${uemail}','${umob}','${uaddress}')`;
+    // let query = "INSERT INTO user (name, uaddress, contact) VALUES('" + uname + "',,'" + uemail + "',,'" + umob + "','" + uaddress + "')";
 
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        // res.send(results);
+        res.send('Student register success-full' + results.insertId);
+        console.log('Student register success-full' + res);
+    });
+});
+// ** UPDATE by POST method
+app.post('/update/items', (req, res) => {
+    let uid = req.body.uid;
+    let uname = req.body.uname;
+    let uemail = req.body.uemail;
+    let umob = req.body.umob;
+    let uaddress = req.body.uaddress;
+    let query = `UPDATE user SET uname='${uname}',uemail='${uemail}',umob='${umob}',uaddress='${uaddress}' WHERE uid='${uid}'`;
+
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        // res.send(results);
+        res.send('Student register success-full' + results.insertId);
+        console.log('Student register success-full' + res);
+    });
+});
+// ** DELETE by POST method
+app.post('/delete/items', (req, res) => {
+    let uid = req.body.uid;
+    let query = `DELETE FROM user WHERE uid='${uid}'`;
     con.query(query, (err, results) => {
         if (err) throw err;
         // res.send(results);

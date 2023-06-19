@@ -11,8 +11,9 @@ import {
   TableRow,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import CreateUsers from '../eventPage/CreateUsers';
-import UpdateUser from '../eventPage/UpdateUser';
+import AddUser from './AddUser';
+import UpdateUser from './UpdateUser';
+import ViewUser from './ViewUser';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -28,14 +29,14 @@ const PaginationTable = () => {
   // ----------DB FETCH START-------------------------
   const [getUser, setGetUser] = useState([]);
   const fetchUserData = () => {
-    fetch('http://localhost:2000/all')
+    fetch('http://localhost:2000/users')
       .then((response) => {
         console.log('response');
         return response.json();
       })
       .then((data) => {
         console.log('Get User data', data);
-        setGetUser(data.response.results);
+        setGetUser(data);
       });
   };
   useEffect(() => {
@@ -59,10 +60,7 @@ const PaginationTable = () => {
   return (
     <Box width="100%" overflow="auto">
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
-        <CreateUsers />
-        {/* <IconButton sx={{ border: '2px solid green', backgroundColor: 'lightgreen' }}>
-            <Icon color="success">add</Icon>
-          </IconButton> */}
+        <AddUser />
       </Box>
       <StyledTable sx={{ tableLayout: 'auto' }} bgcolor="#fafafa">
         <TableHead bgcolor="#e0f7fa">
@@ -71,7 +69,7 @@ const PaginationTable = () => {
             <TableCell align="center">USER NAME</TableCell>
             <TableCell align="center">EMAIL</TableCell>
             <TableCell align="center">MOBILE</TableCell>
-            <TableCell align="center">SUBJECT</TableCell>
+            <TableCell align="center">ADDRESS</TableCell>
             <TableCell align="center">ACTION</TableCell>
           </TableRow>
         </TableHead>
@@ -81,19 +79,20 @@ const PaginationTable = () => {
             .map((user, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell align="center">{user.sid}1</TableCell>
-                  <TableCell align="center">{user.sname}aashi</TableCell>
-                  <TableCell align="center">{user.semail}aashi765@gmail.com</TableCell>
-                  <TableCell align="center">{user.smob}837673656</TableCell>
-                  <TableCell align="center">{user.subject}C</TableCell>
+                  <TableCell align="center">{user.uid}</TableCell>
+                  <TableCell align="center">{user.uname}</TableCell>
+                  <TableCell align="center">{user.uemail}</TableCell>
+                  <TableCell align="center">{user.umob}</TableCell>
+                  <TableCell align="center">{user.uaddress}</TableCell>
 
                   <TableCell
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton>
+                    {/* <IconButton>
                       <Icon color="secondary">visibility</Icon>
-                    </IconButton>
+                    </IconButton> */}
+                    <ViewUser />
                     {/* <IconButton>
                       <Icon color="primary">edit</Icon>{' '}
                     </IconButton> */}
