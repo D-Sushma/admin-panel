@@ -42,7 +42,12 @@ export default function AddUsers({ open, handleClose, sendUser }) {
           /> */}
 
           <FormLabel>Enter Name</FormLabel>
-          <TextField sx={{ mb: 3 }} fullWidth value={sendUser.uname} />
+          <TextField
+            sx={{ mb: 3 }}
+            fullWidth
+            value={sendUser.uname}
+            onChange={(e) => console.log(e.target.value)}
+          />
           <FormLabel>Enter Email</FormLabel>
           <TextField sx={{ mb: 3 }} fullWidth value={sendUser.uemail} />
           <FormLabel>Enter Mobile</FormLabel>

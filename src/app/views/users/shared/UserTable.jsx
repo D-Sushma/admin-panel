@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import AddUser from './AddUser';
 import UpdateUser from './UpdateUser';
 import ViewUser from './ViewUser';
+import DeleteUser from './DeleteUser';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -29,6 +30,7 @@ const StyledTable = styled(Table)(() => ({
 const PaginationTable = () => {
   const [open, setOpen] = React.useState(false);
   const [sendUser, setSendUser] = useState([]);
+  const [onDelete, setOnDelete] = useState([]);
   // ----------DB FETCH START-------------------------
   const [getUser, setGetUser] = useState([]);
   const fetchUserData = () => {
@@ -52,6 +54,7 @@ const PaginationTable = () => {
     console.log('user', user);
     setOpen(true);
     setSendUser(user);
+    setOnDelete(user.uid);
   };
   function handleClose() {
     setOpen(false);
@@ -74,8 +77,9 @@ const PaginationTable = () => {
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
         <AddUser />
       </Box>
-      {/* <ViewUser open={open} handleClose={handleClose} /> */}
-      <UpdateUser open={open} handleClose={handleClose} sendUser={sendUser} />
+      {/* <ViewUser open={open} handleClose={handleClose} sendUser={sendUser} /> */}
+      {/* <UpdateUser open={open} handleClose={handleClose} sendUser={sendUser} /> */}
+      <DeleteUser open={open} handleClose={handleClose} />
       <StyledTable sx={{ tableLayout: 'auto' }} bgcolor="#fafafa">
         <TableHead bgcolor="#e0f7fa">
           <TableRow>
@@ -103,13 +107,13 @@ const PaginationTable = () => {
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton onClick={handleClickOpen}>
+                    <IconButton onClick={() => handleClickOpen(user)}>
                       <Icon color="secondary">visibility</Icon>
                     </IconButton>
                     <IconButton onClick={() => handleClickOpen(user)}>
                       <Icon color="primary">edit</Icon>{' '}
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => handleClickOpen(user)}>
                       <Icon color="error">delete</Icon>
                     </IconButton>
                   </TableCell>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Fab, Icon, Typography } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function AddUsers({ open, handleClose }) {
+export default function AddUsers({ open, handleClose, sendUser }) {
   // const [open, setOpen] = React.useState(false);
   // function handleClickOpen() {
   //   setOpen(true);
@@ -31,20 +31,20 @@ export default function AddUsers({ open, handleClose }) {
           </Fab>
         </DialogActions>
         <DialogContent>
-          <Typography variant="subtitle2" gutterBottom>
-            User ID: maahi
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
+            <Box sx={{ width: '90px' }}> User ID:</Box> <Box> {sendUser.uid}</Box>
           </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            User Name: maahi
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
+            <Box sx={{ width: '90px' }}>User Name:</Box> <Box>{sendUser.uname}</Box>
           </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            User Email: maahi
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
+            <Box sx={{ width: '90px' }}> Email:</Box> <Box> {sendUser.uemail}</Box>
           </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            User Mobile: maahi
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
+            <Box sx={{ width: '90px' }}> Mobile:</Box> <Box> {sendUser.umob}</Box>
           </Typography>
-          <Typography variant="subtitle2" gutterBottom>
-            User Subject: maahi
+          <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
+            <Box sx={{ width: '90px' }}>Address:</Box> <Box>{sendUser.uaddress}</Box>
           </Typography>
         </DialogContent>
       </Dialog>
