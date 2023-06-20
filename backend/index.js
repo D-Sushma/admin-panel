@@ -40,6 +40,17 @@ app.get('/single/item/:id', (req, res) => {
         res.send((results));
     });
 });
+// ** VIEW single user data
+app.post('/view/items', (req, res) => {
+    let uid = req.body.uid;
+    let query = `SELECT * FROM user WHERE uid='${uid}'`;
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+        // res.send('Student register success-full' + results.insertId);
+        console.log(results);
+    });
+});
 
 // /*** Create New Item *post* @return response() */
 app.get('/insert', (req, res) => {

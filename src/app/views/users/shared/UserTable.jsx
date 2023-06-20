@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   IconButton,
@@ -26,6 +27,8 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 const PaginationTable = () => {
+  const [open, setOpen] = React.useState(false);
+  const [sendUser, setSendUser] = useState([]);
   // ----------DB FETCH START-------------------------
   const [getUser, setGetUser] = useState([]);
   const fetchUserData = () => {
@@ -44,6 +47,15 @@ const PaginationTable = () => {
   }, []);
   // ----------DB FETCH END-------------------------
 
+  // ** open & close dialogue
+  const handleClickOpen = (user) => {
+    console.log('user', user);
+    setOpen(true);
+    setSendUser(user);
+  };
+  function handleClose() {
+    setOpen(false);
+  }
   // ** pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -62,6 +74,8 @@ const PaginationTable = () => {
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
         <AddUser />
       </Box>
+      {/* <ViewUser open={open} handleClose={handleClose} /> */}
+      <UpdateUser open={open} handleClose={handleClose} sendUser={sendUser} />
       <StyledTable sx={{ tableLayout: 'auto' }} bgcolor="#fafafa">
         <TableHead bgcolor="#e0f7fa">
           <TableRow>
@@ -89,14 +103,12 @@ const PaginationTable = () => {
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    {/* <IconButton>
+                    <IconButton onClick={handleClickOpen}>
                       <Icon color="secondary">visibility</Icon>
-                    </IconButton> */}
-                    <ViewUser />
-                    {/* <IconButton>
+                    </IconButton>
+                    <IconButton onClick={() => handleClickOpen(user)}>
                       <Icon color="primary">edit</Icon>{' '}
-                    </IconButton> */}
-                    <UpdateUser />
+                    </IconButton>
                     <IconButton>
                       <Icon color="error">delete</Icon>
                     </IconButton>

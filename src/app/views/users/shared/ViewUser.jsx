@@ -1,23 +1,21 @@
 import React from 'react';
-import { Box, Fab, IconButton, Icon, Typography } from '@mui/material';
+import { Box, Fab, Icon, Typography } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function AddUsers({ getUser }) {
-  console.log('getUser', getUser);
-  const [open, setOpen] = React.useState(false);
-
-  function handleClickOpen() {
-    setOpen(true);
-  }
-  function handleClose() {
-    setOpen(false);
-  }
+export default function AddUsers({ open, handleClose }) {
+  // const [open, setOpen] = React.useState(false);
+  // function handleClickOpen() {
+  //   setOpen(true);
+  // }
+  // function handleClose() {
+  //   setOpen(false);
+  // }
 
   return (
     <Box>
-      <IconButton onClick={handleClickOpen}>
+      {/* <IconButton onClick={handleClickOpen}>
         <Icon color="secondary">visibility</Icon>
-      </IconButton>
+      </IconButton> */}
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" sx={{ width: '600px', height: 'auto' }}>
