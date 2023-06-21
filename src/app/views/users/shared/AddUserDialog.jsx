@@ -56,12 +56,12 @@ export default function AddUser() {
     // setUserDetail(e);
   };
 
-  let handleSubmit = () => {
-    console.log(userName);
-    console.log(userEmail);
-    console.log(userMobile);
-    console.log(userAddress);
-  };
+  // let handleSubmit = () => {
+  //   console.log(userName);
+  //   console.log(userEmail);
+  //   console.log(userMobile);
+  //   console.log(userAddress);
+  // };
   let handleUserName = (event) => {
     setUserName(event);
   };
@@ -110,28 +110,45 @@ export default function AddUser() {
           <TextField
             sx={{ mb: 3 }}
             fullWidth
+            margin="dense"
             // onChange={(event) => setAddName(event.target.value)}
             onChange={(event) => handleUserName(event.target.value)}
           />
           <FormLabel>Enter Email</FormLabel>
-          <TextField sx={{ mb: 3 }} fullWidth onChange={(e) => handleUserEmail(e.target.value)} />
+          <TextField
+            sx={{ mb: 3 }}
+            fullWidth
+            margin="dense"
+            onChange={(e) => handleUserEmail(e.target.value)}
+          />
           <FormLabel>Enter Mobile</FormLabel>
-          <TextField sx={{ mb: 3 }} fullWidth onChange={(e) => handleUserMobile(e.target.value)} />
+          <TextField
+            sx={{ mb: 3 }}
+            fullWidth
+            margin="dense"
+            onChange={(e) => handleUserMobile(e.target.value)}
+          />
           <FormLabel>Enter Address</FormLabel>
-          <TextField sx={{ mb: 3 }} fullWidth onChange={(e) => handleSubject(e.target.value)} />
+          <TextField
+            sx={{ mb: 3 }}
+            fullWidth
+            margin="dense"
+            onChange={(e) => handleSubject(e.target.value)}
+          />
           <Button
             variant="contained"
             sx={{ mt: 2 }}
             fullWidth
+            color="success"
             onClick={fetchSubmitData}
-            // disabled={
-            //   userName.length < 1 ||
-            //   userEmail.length < 1 ||
-            //   userMobile.length < 1 ||
-            //   uaddress.length < 1
-            // }
+            disabled={
+              userName.length < 1 ||
+              userEmail.length < 1 ||
+              userMobile.length < 1 ||
+              userAddress.length < 1
+            }
           >
-            Submit
+            Add User
           </Button>
         </DialogContent>
       </Dialog>

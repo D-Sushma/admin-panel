@@ -89,9 +89,9 @@ app.post('/update/items', (req, res) => {
 
     con.query(query, (err, results) => {
         if (err) throw err;
-        // res.send(results);
-        res.send('Student register success-full' + results.insertId);
-        console.log('Student register success-full' + res);
+        res.send(results);
+        // res.send('Student register success-full' + results.insertId);
+        // console.log('Student register success-full' + res);
     });
 });
 // ** DELETE by POST method
@@ -100,9 +100,10 @@ app.post('/delete/items', (req, res) => {
     let query = `DELETE FROM user WHERE uid='${uid}'`;
     con.query(query, (err, results) => {
         if (err) throw err;
-        // res.send(results);
-        res.send('Student register success-full' + results.insertId);
-        console.log('Student register success-full' + res);
+        res.send(results);
+        console.log(results)
+        // res.send('Student register success-full' + results);
+        // console.log('Student register success-full', + results);
     });
 });
 

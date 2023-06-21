@@ -12,10 +12,10 @@ import {
   TableRow,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import AddUser from './AddUser';
-import UpdateUser from './UpdateUser';
-import ViewUser from './ViewUser';
-import DeleteUser from './DeleteUser';
+import AddUserDialog from './AddUserDialog';
+import UpdateUserDialog from './UpdateUserDialog';
+import ViewUserDialog from './ViewUserDialog';
+import DeleteUserDialog from './DeleteUserDialog';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -28,9 +28,12 @@ const StyledTable = styled(Table)(() => ({
 }));
 
 const PaginationTable = () => {
-  const [open, setOpen] = React.useState(false);
-  const [sendUser, setSendUser] = useState([]);
-  const [onDelete, setOnDelete] = useState([]);
+  const [viewOpen, setViewOpen] = React.useState(false);
+  const [updateOpen, setUpdateOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [viewUser, setViewUser] = useState([]);
+  const [updateUser, setUpdateUser] = useState([]);
+  const [deleteUser, setDeleteUser] = useState([]);
   // ----------DB FETCH START-------------------------
   const [getUser, setGetUser] = useState([]);
   const fetchUserData = () => {
@@ -50,15 +53,20 @@ const PaginationTable = () => {
   // ----------DB FETCH END-------------------------
 
   // ** open & close dialogue
-  const handleClickOpen = (user) => {
-    console.log('user', user);
-    setOpen(true);
-    setSendUser(user);
-    setOnDelete(user.uid);
+  const handleClickView = (user) => {
+    // console.log('user', user);
+    setViewOpen(true);
+    setViewUser(user);
   };
-  function handleClose() {
-    setOpen(false);
-  }
+  const handleClickUpdate = (user) => {
+    setUpdateOpen(true);
+    setUpdateUser(user);
+  };
+  const handleClickDelete = (user) => {
+    setDeleteOpen(true);
+    setDeleteUser(user);
+  };
+
   // ** pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -75,11 +83,26 @@ const PaginationTable = () => {
   return (
     <Box width="100%" overflow="auto">
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
-        <AddUser />
+        <AddUserDialog />
       </Box>
-      {/* <ViewUser open={open} handleClose={handleClose} sendUser={sendUser} /> */}
-      {/* <UpdateUser open={open} handleClose={handleClose} sendUser={sendUser} /> */}
-      <DeleteUser open={open} handleClose={handleClose} />
+      <ViewUserDialog open={viewOpen} handleClose={() => setViewOpen(false)} user={viewUser} />
+      <UpdateUserDialog
+        open={updateOpen}
+        handleClose={() => setUpdateOpen(false)}
+        // user={updateUser}
+        initialValues={{
+          uid: updateUser.uid,
+          uname: updateUser.uname,
+          uemail: updateUser.uemail,
+          umobile: updateUser.umob,
+          uaddress: updateUser.uaddress,
+        }}
+      />
+      <DeleteUserDialog
+        open={deleteOpen}
+        handleClose={() => setDeleteOpen(false)}
+        user={deleteUser}
+      />
       <StyledTable sx={{ tableLayout: 'auto' }} bgcolor="#fafafa">
         <TableHead bgcolor="#e0f7fa">
           <TableRow>
@@ -107,13 +130,13 @@ const PaginationTable = () => {
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton onClick={() => handleClickOpen(user)}>
+                    <IconButton onClick={() => handleClickView(user)}>
                       <Icon color="secondary">visibility</Icon>
                     </IconButton>
-                    <IconButton onClick={() => handleClickOpen(user)}>
+                    <IconButton onClick={() => handleClickUpdate(user)}>
                       <Icon color="primary">edit</Icon>{' '}
                     </IconButton>
-                    <IconButton onClick={() => handleClickOpen(user)}>
+                    <IconButton onClick={() => handleClickDelete(user)}>
                       <Icon color="error">delete</Icon>
                     </IconButton>
                   </TableCell>
