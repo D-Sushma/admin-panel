@@ -17,7 +17,9 @@ export default function AppUsers() {
     <>
       <Container>
         <div className="breadcrumb">
-          <Breadcrumb routeSegments={[{ name: 'Users', path: '/material' }, { name: 'Table' }]} />
+          <Breadcrumb
+            routeSegments={[{ name: 'Users', path: '/users/AppUsers' }, { name: 'Table' }]}
+          />
         </div>
 
         <Box sx={{ mt: 1 }}>

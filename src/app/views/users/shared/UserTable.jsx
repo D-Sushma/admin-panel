@@ -27,7 +27,7 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = () => {
+const UserTable = () => {
   const [viewOpen, setViewOpen] = React.useState(false);
   const [updateOpen, setUpdateOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
@@ -161,4 +161,4 @@ const PaginationTable = () => {
   );
 };
 
-export default PaginationTable;
+export default UserTable;

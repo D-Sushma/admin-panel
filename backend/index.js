@@ -16,7 +16,7 @@ con.connect((err) => {
     if (err) throw err;
     console.log('Mysql Connected with App...');
 });
-// -------------------------------------------------------
+// ------------------------USER-------------------------------
 app.get('/', (req, res) => {
     res.send("Hello world");
 })
@@ -104,6 +104,39 @@ app.post('/delete/items', (req, res) => {
         console.log(results)
         // res.send('Student register success-full' + results);
         // console.log('Student register success-full', + results);
+    });
+});
+// ------------------------CUSTOMER-------------------------------
+app.get('/customers', (req, res) => {
+    let query = "SELECT * FROM customer";
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        console.log(results);
+        res.send((results));
+    });
+});
+
+app.post('/add-customer', (req, res) => {
+    let cname = req.body.cname;
+    let cemail = req.body.cemail;
+    let cmob = req.body.cmob;
+    let caddress = req.body.caddress;
+
+    let query = `INSERT INTO customer (cname,cemail,cmob,caddress) VALUES ('${cname}', '${cemail}', '${cmob}', '${caddress}')`;
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        // console.log(results);
+        res.send('Student register success-full' + results.insertId);
+    })
+})
+
+app.post('/delete-customer', (req, res) => {
+    let cid = req.body.cid;
+    let query = `DELETE FROM customer WHERE cid='${cid}'`;
+    con.query(query, (err, results) => {
+        if (err) throw err;
+        res.send(results);
+        console.log(results)
     });
 });
 

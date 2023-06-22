@@ -3,7 +3,7 @@ import { Box, Fab, IconButton, Icon } from '@mui/material';
 import { FormLabel, TextField, Button } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function AddUser() {
+export default function AddUserDialog() {
   const [open, setOpen] = React.useState(false);
   // const [userDetail, setUserDetail] = useState('');
   const [userName, setUserName] = useState('');
@@ -11,7 +11,7 @@ export default function AddUser() {
   const [userMobile, setUserMobile] = useState('');
   const [userAddress, setUserAddress] = useState('');
 
-  const fetchSubmitData = async () => {
+  const handleAddUserData = async () => {
     window.location.reload(false);
     handleClose();
     var myHeaders = new Headers();
@@ -71,7 +71,7 @@ export default function AddUser() {
   let handleUserMobile = (event) => {
     setUserMobile(event);
   };
-  let handleSubject = (event) => {
+  let handleUserAddress = (event) => {
     setUserAddress(event);
   };
   return (
@@ -111,6 +111,7 @@ export default function AddUser() {
             sx={{ mb: 3 }}
             fullWidth
             margin="dense"
+            type="text"
             // onChange={(event) => setAddName(event.target.value)}
             onChange={(event) => handleUserName(event.target.value)}
           />
@@ -119,6 +120,7 @@ export default function AddUser() {
             sx={{ mb: 3 }}
             fullWidth
             margin="dense"
+            type="email"
             onChange={(e) => handleUserEmail(e.target.value)}
           />
           <FormLabel>Enter Mobile</FormLabel>
@@ -126,6 +128,7 @@ export default function AddUser() {
             sx={{ mb: 3 }}
             fullWidth
             margin="dense"
+            type="number"
             onChange={(e) => handleUserMobile(e.target.value)}
           />
           <FormLabel>Enter Address</FormLabel>
@@ -133,14 +136,15 @@ export default function AddUser() {
             sx={{ mb: 3 }}
             fullWidth
             margin="dense"
-            onChange={(e) => handleSubject(e.target.value)}
+            type="text"
+            onChange={(e) => handleUserAddress(e.target.value)}
           />
           <Button
             variant="contained"
             sx={{ mt: 2 }}
             fullWidth
             color="success"
-            onClick={fetchSubmitData}
+            onClick={handleAddUserData}
             disabled={
               userName.length < 1 ||
               userEmail.length < 1 ||

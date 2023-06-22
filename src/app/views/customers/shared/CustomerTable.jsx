@@ -1,5 +1,7 @@
+import React from 'react';
 import {
   Box,
+  Button,
   IconButton,
   Icon,
   styled,
@@ -11,8 +13,9 @@ import {
   TableRow,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import AddUsers from '../eventPage/AddUsers';
-import UpdateUser from '../eventPage/UpdateUser';
+import AddCustomerDialog from './AddCustomerDialog';
+import ViewCustomerDialog from './ViewCustomerDialog';
+import DeleteCustomerDialog from './DeleteCustomerDialog';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -24,24 +27,42 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = () => {
+const CustomerTable = () => {
+  const [addOpen, setAddOpen] = React.useState(false);
+  const [viewOpen, setViewOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [viewCustomer, setViewCustomer] = useState('');
+  const [deleteCustomer, setDeleteCustomer] = useState('');
   // ----------DB FETCH START-------------------------
-  const [join, setJoin] = useState([]);
-  const fetchJoinData = () => {
-    fetch('http://localhost:5000/join')
+  const [getCustomer, setGetCustomer] = useState([]);
+  const fetchCustomerData = () => {
+    fetch('http://localhost:2000/customers')
       .then((response) => {
-        console.log(' JOIN response');
         return response.json();
       })
       .then((data) => {
-        console.log('inside JOIN data', data);
-        setJoin(data.response.results);
+        console.log('Get Customer data', data);
+        setGetCustomer(data);
       });
   };
   useEffect(() => {
-    fetchJoinData();
+    fetchCustomerData();
   }, []);
   // ----------DB FETCH END-------------------------
+
+  // ** open & close dialogue
+  let handleClickAdd = () => {
+    setAddOpen(true);
+  };
+  let handleClickView = (customer) => {
+    // console.log('customer', customer);
+    setViewOpen(true);
+    setViewCustomer(customer);
+  };
+  let handleClickDelete = (customer) => {
+    setDeleteOpen(true);
+    setDeleteCustomer(customer);
+  };
 
   // ** pagination
   const [page, setPage] = useState(0);
@@ -58,66 +79,58 @@ const PaginationTable = () => {
 
   return (
     <Box width="100%" overflow="auto">
+      <AddCustomerDialog open={addOpen} handleClose={() => setAddOpen(false)} />
+      <ViewCustomerDialog
+        open={viewOpen}
+        handleClose={() => setViewOpen(false)}
+        customer={viewCustomer}
+      />
+      <DeleteCustomerDialog
+        open={deleteOpen}
+        handleClose={() => setDeleteOpen(false)}
+        customer={deleteCustomer}
+      />
+
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
-        <AddUsers />
-        {/* <IconButton sx={{ border: '2px solid green', backgroundColor: 'lightgreen' }}>
-            <Icon color="success">add</Icon>
-          </IconButton> */}
+        <Button variant="outlined" color="success" onClick={handleClickAdd}>
+          + Add Customer
+        </Button>
       </Box>
+
       <StyledTable sx={{ tableLayout: 'auto' }} bgcolor="#fafafa">
         <TableHead bgcolor="#e0f7fa">
           <TableRow>
             <TableCell align="center">SNO</TableCell>
-            <TableCell align="center">USER ID</TableCell>
-            <TableCell align="center">SUBJECT</TableCell>
-            <TableCell align="center">SUBSCRIPTION</TableCell>
-            <TableCell align="center">STATUS</TableCell>
+            <TableCell align="center">USER NAME</TableCell>
+            <TableCell align="center">EMAIL</TableCell>
+            <TableCell align="center">MOBILE</TableCell>
+            <TableCell align="center">ADDRESS</TableCell>
             <TableCell align="center">ACTION</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {join
+          {getCustomer
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((joinUser, index) => {
+            .map((customer, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell align="center">{joinUser.id}</TableCell>
-                  <TableCell align="center">{joinUser.name + ' ' + joinUser.lname}</TableCell>
-
-                  {joinUser.subject === 6 ? (
-                    <TableCell align="center">English</TableCell>
-                  ) : joinUser.subject === 13 ? (
-                    <TableCell align="center">GK</TableCell>
-                  ) : (
-                    <TableCell align="center">----</TableCell>
-                  )}
-
-                  {joinUser.subscription === 1 ? (
-                    <TableCell align="center">Weekly</TableCell>
-                  ) : (
-                    <TableCell align="center">{joinUser.subscription}</TableCell>
-                  )}
-
-                  {joinUser.status === 1 ? (
-                    <TableCell align="center">Active</TableCell>
-                  ) : joinUser.status === 0 ? (
-                    <TableCell align="center">Deactive</TableCell>
-                  ) : (
-                    <TableCell align="center">----</TableCell>
-                  )}
+                  <TableCell align="center">{customer.cid}</TableCell>
+                  <TableCell align="center">{customer.cname}</TableCell>
+                  <TableCell align="center">{customer.cemail}</TableCell>
+                  <TableCell align="center">{customer.cmob}</TableCell>
+                  <TableCell align="center">{customer.caddress}</TableCell>
 
                   <TableCell
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton>
+                    <IconButton onClick={() => handleClickView(customer)}>
                       <Icon color="secondary">visibility</Icon>
                     </IconButton>
-                    {/* <IconButton>
-                      <Icon color="primary">edit</Icon>{' '}
-                    </IconButton> */}
-                    <UpdateUser />
                     <IconButton>
+                      <Icon color="primary">edit</Icon>
+                    </IconButton>
+                    <IconButton onClick={() => handleClickDelete(customer)}>
                       <Icon color="error">delete</Icon>
                     </IconButton>
                   </TableCell>
@@ -131,7 +144,7 @@ const PaginationTable = () => {
         page={page}
         component="div"
         rowsPerPage={rowsPerPage}
-        count={join.length}
+        count={getCustomer.length}
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}
@@ -142,4 +155,4 @@ const PaginationTable = () => {
   );
 };
 
-export default PaginationTable;
+export default CustomerTable;

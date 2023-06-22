@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Fab, Icon, Typography } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-export default function ViewUserDialog({ open, handleClose, user }) {
+export default function ViewCustomerDialog({ open, handleClose, customer }) {
   // const [open, setOpen] = React.useState(false);
   // function handleClickOpen() {
   //   setOpen(true);
@@ -15,12 +15,9 @@ export default function ViewUserDialog({ open, handleClose, user }) {
       {/* <IconButton onClick={handleClickOpen}>
         <Icon color="secondary">visibility</Icon>
       </IconButton> */}
-      {/* <div>
-        <LinearProgress variant="determinate" value={progress} />
-      </div> */}
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" sx={{ width: '600px', height: 'auto' }}>
-          View User Detail
+          View Customer Detail
         </DialogTitle>
         <DialogActions>
           <Fab
@@ -33,19 +30,19 @@ export default function ViewUserDialog({ open, handleClose, user }) {
         </DialogActions>
         <DialogContent>
           <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
-            <Box sx={{ width: '90px' }}> User ID:</Box> <Box> {user.uid}</Box>
+            <Box sx={{ width: '90px' }}> User ID:</Box> <Box> {customer.cid}</Box>
           </Typography>
           <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
-            <Box sx={{ width: '90px' }}>User Name:</Box> <Box>{user.uname}</Box>
+            <Box sx={{ width: '90px' }}>User Name:</Box> <Box>{customer.cname}</Box>
           </Typography>
           <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
-            <Box sx={{ width: '90px' }}> Email:</Box> <Box> {user.uemail}</Box>
+            <Box sx={{ width: '90px' }}> Email:</Box> <Box> {customer.cemail}</Box>
           </Typography>
           <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
-            <Box sx={{ width: '90px' }}> Mobile:</Box> <Box> {user.umob}</Box>
+            <Box sx={{ width: '90px' }}> Mobile:</Box> <Box> {customer.cmob}</Box>
           </Typography>
           <Typography variant="subtitle2" gutterBottom sx={{ display: 'flex' }}>
-            <Box sx={{ width: '90px' }}>Address:</Box> <Box>{user.uaddress}</Box>
+            <Box sx={{ width: '90px' }}>Address:</Box> <Box>{customer.caddress}</Box>
           </Typography>
         </DialogContent>
       </Dialog>

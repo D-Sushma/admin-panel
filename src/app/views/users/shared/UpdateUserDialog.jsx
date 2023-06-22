@@ -3,14 +3,14 @@ import { Box, Fab, Icon } from '@mui/material';
 import { FormLabel, TextField, Button } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function AddUsers({ open, handleClose, initialValues }) {
+export default function UpdateUserDialog({ open, handleClose, initialValues }) {
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userMobile, setUserMobile] = useState('');
   const [userAddress, setUserAddress] = useState('');
 
-  const handleUpdate = async () => {
+  const handleUpdateData = async () => {
     window.location.reload(false);
     handleClose();
     var myHeaders = new Headers();
@@ -123,7 +123,7 @@ export default function AddUsers({ open, handleClose, initialValues }) {
             value={userAddress}
             onChange={handleAddressChange}
           />
-          <Button variant="contained" sx={{ mt: 2 }} fullWidth onClick={handleUpdate}>
+          <Button variant="contained" sx={{ mt: 2 }} fullWidth onClick={handleUpdateData}>
             Update
           </Button>
         </DialogContent>

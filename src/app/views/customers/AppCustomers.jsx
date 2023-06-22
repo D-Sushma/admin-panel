@@ -19,7 +19,7 @@ export default function AppCustomers() {
         <div className="breadcrumb">
           <Breadcrumb
             routeSegments={[
-              { name: 'Customers', path: './shared/CustomerTable' },
+              { name: 'Customers', path: '/customers/AppCustomers' },
               { name: 'Table' },
             ]}
           />
