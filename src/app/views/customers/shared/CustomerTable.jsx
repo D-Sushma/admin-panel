@@ -11,11 +11,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AddCustomerDialog from './AddCustomerDialog';
 import ViewCustomerDialog from './ViewCustomerDialog';
 import DeleteCustomerDialog from './DeleteCustomerDialog';
+import UpdateCustomerDialog from './UpdateCustomerDialog';
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: 'pre',
@@ -31,8 +33,10 @@ const CustomerTable = () => {
   const [addOpen, setAddOpen] = React.useState(false);
   const [viewOpen, setViewOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [updateOpen, setUpdateOpen] = React.useState(false);
   const [viewCustomer, setViewCustomer] = useState('');
   const [deleteCustomer, setDeleteCustomer] = useState('');
+  const [updateCustomer, setUpdateCustomer] = useState('');
   // ----------DB FETCH START-------------------------
   const [getCustomer, setGetCustomer] = useState([]);
   const fetchCustomerData = () => {
@@ -42,7 +46,7 @@ const CustomerTable = () => {
       })
       .then((data) => {
         console.log('Get Customer data', data);
-        setGetCustomer(data);
+        setGetCustomer(data.results);
       });
   };
   useEffect(() => {
@@ -62,6 +66,10 @@ const CustomerTable = () => {
   let handleClickDelete = (customer) => {
     setDeleteOpen(true);
     setDeleteCustomer(customer);
+  };
+  let handleClickUpdate = (customer) => {
+    setUpdateOpen(true);
+    setUpdateCustomer(customer);
   };
 
   // ** pagination
@@ -89,6 +97,18 @@ const CustomerTable = () => {
         open={deleteOpen}
         handleClose={() => setDeleteOpen(false)}
         customer={deleteCustomer}
+      />
+      <UpdateCustomerDialog
+        open={updateOpen}
+        handleClose={() => setUpdateOpen(false)}
+        // customer={updateCustomer}
+        initialValues={{
+          cid: updateCustomer.cid,
+          cname: updateCustomer.cname,
+          cemail: updateCustomer.cemail,
+          cmobile: updateCustomer.cmob,
+          caddress: updateCustomer.caddress,
+        }}
       />
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mr: 5, mb: 1 }}>
@@ -124,15 +144,21 @@ const CustomerTable = () => {
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton onClick={() => handleClickView(customer)}>
-                      <Icon color="secondary">visibility</Icon>
-                    </IconButton>
-                    <IconButton>
-                      <Icon color="primary">edit</Icon>
-                    </IconButton>
-                    <IconButton onClick={() => handleClickDelete(customer)}>
-                      <Icon color="error">delete</Icon>
-                    </IconButton>
+                    <Tooltip title="View" placement="top">
+                      <IconButton onClick={() => handleClickView(customer)}>
+                        <Icon color="secondary">visibility</Icon>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="edit" placement="top">
+                      <IconButton onClick={() => handleClickUpdate(customer)}>
+                        <Icon color="primary">edit</Icon>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="delete" placement="top">
+                      <IconButton onClick={() => handleClickDelete(customer)}>
+                        <Icon color="error">delete</Icon>
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );

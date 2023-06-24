@@ -18,17 +18,21 @@ con.connect((err) => {
 });
 // ------------------------USER-------------------------------
 app.get('/', (req, res) => {
-    res.send("Hello world");
+    res.send({ code: 200, msg: "Hello world" });
 })
 
 /**  Get All Items */
 app.get('/users', (req, res) => {
-    let query = "SELECT * FROM user";
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        console.log(results);
-        res.send((results));
-    });
+    try {
+        let query = "SELECT * FROM user";
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            console.log(results);
+            res.send({ code: 200, results: results });
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 
 // /*** Get Single Item ** @return response() api/items/:id*/
@@ -42,14 +46,17 @@ app.get('/single/item/:id', (req, res) => {
 });
 // ** VIEW single user data
 app.post('/view/items', (req, res) => {
-    let uid = req.body.uid;
-    let query = `SELECT * FROM user WHERE uid='${uid}'`;
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-        // res.send('Student register success-full' + results.insertId);
-        console.log(results);
-    });
+    try {
+        let uid = req.body.uid;
+        let query = `SELECT * FROM user WHERE uid='${uid}'`;
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            res.send({ code: 200, results: results });
+            console.log(results);
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 
 // /*** Create New Item *post* @return response() */
@@ -64,80 +71,125 @@ app.get('/insert', (req, res) => {
 
 // ** INSERT by POST method
 app.post('/insert/items', (req, res) => {
-    let uname = req.body.uname;
-    let uemail = req.body.uemail;
-    let umob = req.body.umob;
-    let uaddress = req.body.uaddress;
-    let query = `INSERT INTO user (uname,uemail,umob,uaddress) VALUES ('${uname}','${uemail}','${umob}','${uaddress}')`;
-    // let query = "INSERT INTO user (name, uaddress, contact) VALUES('" + uname + "',,'" + uemail + "',,'" + umob + "','" + uaddress + "')";
+    try {
+        let uname = req.body.uname;
+        let uemail = req.body.uemail;
+        let umob = req.body.umob;
+        let uaddress = req.body.uaddress;
+        let query = `INSERT INTO user (uname,uemail,umob,uaddress) VALUES ('${uname}','${uemail}','${umob}','${uaddress}')`;
+        // let query = "INSERT INTO user (name, uaddress, contact) VALUES('" + uname + "',,'" + uemail + "',,'" + umob + "','" + uaddress + "')";
 
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        // res.send(results);
-        res.send('Student register success-full' + results.insertId);
-        console.log('Student register success-full' + res);
-    });
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            console.log(results)
+            res.send({ code: 200, results: results });
+            // res.send('Student register success-full' + results.insertId);
+            // console.log('Student register success-full' + res);
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 // ** UPDATE by POST method
 app.post('/update/items', (req, res) => {
-    let uid = req.body.uid;
-    let uname = req.body.uname;
-    let uemail = req.body.uemail;
-    let umob = req.body.umob;
-    let uaddress = req.body.uaddress;
-    let query = `UPDATE user SET uname='${uname}',uemail='${uemail}',umob='${umob}',uaddress='${uaddress}' WHERE uid='${uid}'`;
+    try {
+        let uid = req.body.uid;
+        let uname = req.body.uname;
+        let uemail = req.body.uemail;
+        let umob = req.body.umob;
+        let uaddress = req.body.uaddress;
+        let query = `UPDATE user SET uname='${uname}',uemail='${uemail}',umob='${umob}',uaddress='${uaddress}' WHERE uid='${uid}'`;
 
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-        // res.send('Student register success-full' + results.insertId);
-        // console.log('Student register success-full' + res);
-    });
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            res.send({ code: 200, results: results });
+            // res.send('Student register success-full' + results.insertId);
+            // console.log('Student register success-full' + res);
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 // ** DELETE by POST method
 app.post('/delete/items', (req, res) => {
-    let uid = req.body.uid;
-    let query = `DELETE FROM user WHERE uid='${uid}'`;
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-        console.log(results)
-        // res.send('Student register success-full' + results);
-        // console.log('Student register success-full', + results);
-    });
+    try {
+        let uid = req.body.uid;
+        let query = `DELETE FROM user WHERE uid='${uid}'`;
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            res.send({ code: 200, results: results });
+            console.log(results)
+            // res.send('Student register success-full' + results);
+            // console.log('Student register success-full', + results);
+        });
+    } catch (error) {
+        console.log('error', error)
+    }
 });
 // ------------------------CUSTOMER-------------------------------
 app.get('/customers', (req, res) => {
-    let query = "SELECT * FROM customer";
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        console.log(results);
-        res.send((results));
-    });
+    try {
+        let query = "SELECT * FROM customer";
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            console.log(results);
+            res.send({ code: 200, results: results });
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 
 app.post('/add-customer', (req, res) => {
-    let cname = req.body.cname;
-    let cemail = req.body.cemail;
-    let cmob = req.body.cmob;
-    let caddress = req.body.caddress;
+    try {
+        let cname = req.body.cname;
+        let cemail = req.body.cemail;
+        let cmob = req.body.cmob;
+        let caddress = req.body.caddress;
 
-    let query = `INSERT INTO customer (cname,cemail,cmob,caddress) VALUES ('${cname}', '${cemail}', '${cmob}', '${caddress}')`;
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        // console.log(results);
-        res.send('Student register success-full' + results.insertId);
-    })
-})
+        let query = `INSERT INTO customer (cname,cemail,cmob,caddress) VALUES ('${cname}', '${cemail}', '${cmob}', '${caddress}')`;
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            console.log(results);
+            res.send({ code: 200, results: results });
+            // res.send('Student register success-full' + results.insertId);
+        });
+
+    } catch (error) {
+        console.log('error', error)
+    }
+});
+
+app.post('/update-customer', (req, res) => {
+    try {
+        let cid = req.body.cid;
+        let cname = req.body.cname;
+        let cemail = req.body.cemail;
+        let cmob = req.body.cmob;
+        let caddress = req.body.caddress;
+        let query = `UPDATE customer SET cname='${cname}',cemail='${cemail}',cmob='${cmob}',caddress='${caddress}' WHERE cid='${cid}'`;
+
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            res.send({ code: 200, results: results });
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
+});
 
 app.post('/delete-customer', (req, res) => {
-    let cid = req.body.cid;
-    let query = `DELETE FROM customer WHERE cid='${cid}'`;
-    con.query(query, (err, results) => {
-        if (err) throw err;
-        res.send(results);
-        console.log(results)
-    });
+    try {
+        let cid = req.body.cid;
+        let query = `DELETE FROM customer WHERE cid='${cid}'`;
+        con.query(query, (err, results) => {
+            if (err) throw err;
+            res.send({ code: 200, results: results });
+            console.log(results)
+        });
+    } catch (error) {
+        console.log('error', error);
+    }
 });
 
 // /*---------------Server listening----------------------*/

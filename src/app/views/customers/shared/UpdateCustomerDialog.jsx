@@ -3,84 +3,79 @@ import { Box, Fab, Icon } from '@mui/material';
 import { FormLabel, TextField, Button } from '@mui/material';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-export default function UpdateUserDialog({ open, handleClose, initialValues }) {
-  const [userId, setUserId] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userMobile, setUserMobile] = useState('');
-  const [userAddress, setUserAddress] = useState('');
+export default function UpdateCustomerDialog({ open, handleClose, initialValues }) {
+  const [customerId, setCustomerId] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerMobile, setCustomerMobile] = useState();
+  const [customerAddress, setCustomerAddress] = useState('');
 
   const handleUpdateData = async () => {
-    // window.location.reload(false);
-    // handleClose();
-    if (validateEmail(userEmail)) {
-      if (userMobile.length === 10) {
-        console.log('userMobile.length', userMobile.length);
+    if (validateEmail(customerEmail)) {
+      if (customerMobile.length === 10) {
+        console.log('valid', customerMobile.length);
         var myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-
-        console.log(userName, userEmail, userMobile, userAddress);
+        console.log(customerName, customerEmail, customerMobile, customerAddress);
         var raw = JSON.stringify({
-          uid: userId,
-          uname: userName,
-          uemail: userEmail,
-          umob: userMobile,
-          uaddress: userAddress,
+          cid: customerId,
+          cname: customerName,
+          cemail: customerEmail,
+          cmob: customerMobile,
+          caddress: customerAddress,
         });
-
         var requestOptions = {
           method: 'POST',
           headers: myHeaders,
           body: raw,
           redirect: 'follow',
         };
-
-        await fetch('http://localhost:2000/update/items', requestOptions)
+        await fetch('http://localhost:2000/update-customer', requestOptions)
           .then((response) => response.json())
           .then((data) => {
             console.log('data', data);
-            window.location.reload(false);
             handleClose();
+            window.location.reload(false);
           })
           .catch((error) => console.log('error', error));
       } else {
-        alert('Enter a valid mobile number !');
+        alert('Enter a valid mobile number');
       }
     } else {
-      alert('Enter a valid email Id!');
+      alert('Enter a valid email Id');
     }
   };
 
   useEffect(() => {
     if (open && initialValues) {
-      setUserId(initialValues.uid || '');
-      setUserName(initialValues.uname || '');
-      setUserEmail(initialValues.uemail || '');
-      setUserMobile(initialValues.umobile || '');
-      setUserAddress(initialValues.uaddress || '');
+      setCustomerId(initialValues.cid || '');
+      setCustomerName(initialValues.cname || '');
+      setCustomerEmail(initialValues.cemail || '');
+      setCustomerMobile(initialValues.cmobile || '');
+      setCustomerAddress(initialValues.caddress || '');
     }
   }, [open, initialValues]);
 
   const handleNameChange = (event) => {
-    setUserName(event.target.value);
+    setCustomerName(event.target.value);
   };
 
   const handleEmailChange = (event) => {
-    setUserEmail(event.target.value);
+    setCustomerEmail(event.target.value);
   };
 
   const handleMobileChange = (event) => {
-    setUserMobile(event.target.value);
+    setCustomerMobile(event.target.value);
   };
 
   const handleAddressChange = (event) => {
-    setUserAddress(event.target.value);
+    setCustomerAddress(event.target.value);
   };
 
   const validateEmail = () => {
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // console.log('validRegex', validRegex);
-    if (userEmail.match(validRegex)) {
+    if (customerEmail.match(validRegex)) {
       // alert("Valid email address!");
       return true;
     } else {
@@ -89,14 +84,28 @@ export default function UpdateUserDialog({ open, handleClose, initialValues }) {
     }
   };
 
+  const mobileValidation = () => {
+    var phoneNumber = customerMobile;
+    var filter =
+      /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
+    if (filter.test(phoneNumber)) {
+      if (phoneNumber.length == 10) {
+        var validate = true;
+      } else {
+        // alert('Please put 10  digit mobile number');
+        var validate = false;
+      }
+    } else {
+      alert('Not a valid number');
+      var validate = false;
+    }
+  };
+
   return (
     <Box>
-      {/* <IconButton onClick={handleClickOpen}>
-        <Icon color="primary">edit</Icon>{' '}
-      </IconButton> */}
-
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit User Detail</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Customer Detail</DialogTitle>
         <DialogActions>
           <Fab
             size="small"
@@ -107,22 +116,13 @@ export default function UpdateUserDialog({ open, handleClose, initialValues }) {
           </Fab>
         </DialogActions>
         <DialogContent>
-          {/* <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          /> */}
-
           <FormLabel>Enter Name</FormLabel>
           <TextField
             sx={{ mb: 3 }}
             margin="dense"
             fullWidth
             type="text"
-            value={userName}
+            value={customerName}
             onChange={handleNameChange}
           />
           <FormLabel>Enter Email</FormLabel>
@@ -131,7 +131,7 @@ export default function UpdateUserDialog({ open, handleClose, initialValues }) {
             fullWidth
             margin="dense"
             type="email"
-            value={userEmail}
+            value={customerEmail}
             onChange={handleEmailChange}
           />
           <FormLabel>Enter Mobile</FormLabel>
@@ -140,7 +140,7 @@ export default function UpdateUserDialog({ open, handleClose, initialValues }) {
             fullWidth
             margin="dense"
             type="number"
-            value={userMobile}
+            value={customerMobile}
             onChange={handleMobileChange}
           />
           <FormLabel>Enter Address</FormLabel>
@@ -149,10 +149,16 @@ export default function UpdateUserDialog({ open, handleClose, initialValues }) {
             fullWidth
             margin="dense"
             type="text"
-            value={userAddress}
+            value={customerAddress}
             onChange={handleAddressChange}
           />
-          <Button variant="contained" sx={{ mt: 2 }} fullWidth onClick={handleUpdateData}>
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            fullWidth
+            // onClick={validateEmail}
+            onClick={handleUpdateData}
+          >
             Update
           </Button>
         </DialogContent>

@@ -10,6 +10,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import AddUserDialog from './AddUserDialog';
@@ -44,7 +45,7 @@ const UserTable = () => {
       })
       .then((data) => {
         console.log('Get User data', data);
-        setGetUser(data);
+        setGetUser(data.results);
       });
   };
   useEffect(() => {
@@ -130,15 +131,21 @@ const UserTable = () => {
                     align="center"
                     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <IconButton onClick={() => handleClickView(user)}>
-                      <Icon color="secondary">visibility</Icon>
-                    </IconButton>
-                    <IconButton onClick={() => handleClickUpdate(user)}>
-                      <Icon color="primary">edit</Icon>{' '}
-                    </IconButton>
-                    <IconButton onClick={() => handleClickDelete(user)}>
-                      <Icon color="error">delete</Icon>
-                    </IconButton>
+                    <Tooltip title="view" placement="top">
+                      <IconButton onClick={() => handleClickView(user)}>
+                        <Icon color="secondary">visibility</Icon>
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="edit" placement="top">
+                      <IconButton onClick={() => handleClickUpdate(user)}>
+                        <Icon color="primary">edit</Icon>{' '}
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="delete" placement="top">
+                      <IconButton onClick={() => handleClickDelete(user)}>
+                        <Icon color="error">delete</Icon>
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );

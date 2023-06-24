@@ -12,34 +12,47 @@ export default function AddUserDialog() {
   const [userAddress, setUserAddress] = useState('');
 
   const handleAddUserData = async () => {
-    window.location.reload(false);
-    handleClose();
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    // window.location.reload(false);
+    // handleClose();
+    if (validateEmail(userEmail)) {
+      if (userMobile.length === 10) {
+        console.log('userMobile.length', userMobile.length);
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
 
-    console.log(userName, userEmail, userMobile, userAddress);
-    var raw = JSON.stringify({
-      // uname: 'suhana',
-      // uemail: 'suhana@gmail.com',
-      // umob: 67347764874,
-      // uaddress: 'JAVA Script',
-      uname: userName,
-      uemail: userEmail,
-      umob: userMobile,
-      uaddress: userAddress,
-    });
+        console.log(userName, userEmail, userMobile, userAddress);
+        var raw = JSON.stringify({
+          // uname: 'suhana',
+          // uemail: 'suhana@gmail.com',
+          // umob: 67347764874,
+          // uaddress: 'JAVA Script',
+          uname: userName,
+          uemail: userEmail,
+          umob: userMobile,
+          uaddress: userAddress,
+        });
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow',
+        };
 
-    await fetch('http://localhost:2000/insert/items', requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log('data', data))
-      .catch((error) => console.log('error', error));
+        await fetch('http://localhost:2000/insert/items', requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('data', data);
+            window.location.reload(false);
+            handleClose();
+          })
+          .catch((error) => console.log('error', error));
+      } else {
+        alert('Enter a valid mobile number !');
+      }
+    } else {
+      alert('Enter a valid email.id !');
+    }
   };
   useEffect(() => {
     // fetchSubmitData();
@@ -74,6 +87,19 @@ export default function AddUserDialog() {
   let handleUserAddress = (event) => {
     setUserAddress(event);
   };
+
+  const validateEmail = () => {
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // console.log('validRegex', validRegex);
+    if (userEmail.match(validRegex)) {
+      // alert("Valid email address!");
+      return true;
+    } else {
+      // alert('Invalid email address!');
+      return false;
+    }
+  };
+
   return (
     <Box>
       {/* <IconButton

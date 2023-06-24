@@ -11,33 +11,46 @@ export default function AddCustomerDialog({ open, handleClose }) {
   const [customerAddress, setCustomerAddress] = useState('');
 
   const handleAddCustomerData = async () => {
-    window.location.reload(false);
-    handleClose();
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    // window.location.reload(false);
+    // handleClose();
+    if (validateEmail(customerEmail)) {
+      if (customerMobile.length === 10) {
+        console.log('customerMobile.length', customerMobile.length);
+        var myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
 
-    console.log(customerName, customerEmail, customerMobile, customerAddress);
-    let raw = JSON.stringify({
-      // cname: 'suhana',
-      // cemail: 'suhana@gmail.com',
-      // cmob: 67347764874,
-      // caddress: 'JAVA Script',
-      cname: customerName,
-      cemail: customerEmail,
-      cmob: customerMobile,
-      caddress: customerAddress,
-    });
-    let requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
+        console.log(customerName, customerEmail, customerMobile, customerAddress);
+        let raw = JSON.stringify({
+          // cname: 'suhana',
+          // cemail: 'suhana@gmail.com',
+          // cmob: 67347764874,
+          // caddress: 'JAVA Script',
+          cname: customerName,
+          cemail: customerEmail,
+          cmob: customerMobile,
+          caddress: customerAddress,
+        });
+        let requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow',
+        };
 
-    await fetch('http://localhost:2000/add-customer', requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log('customer data', data))
-      .catch((error) => console.log('error', error));
+        await fetch('http://localhost:2000/add-customer', requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('customer data', data);
+            handleClose();
+            window.location.reload(false);
+          })
+          .catch((error) => console.log('error', error));
+      } else {
+        alert('Enter a valid mobile number !');
+      }
+    } else {
+      alert('Enter valid email Id !');
+    }
   };
 
   // let handleClickOpen = () => {
@@ -59,6 +72,18 @@ export default function AddCustomerDialog({ open, handleClose }) {
   };
   let handleCustomerAddress = (e) => {
     setCustomerAddress(e);
+  };
+
+  const validateEmail = () => {
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // console.log('validRegex', validRegex);
+    if (customerEmail.match(validRegex)) {
+      // alert("Valid email address!");
+      return true;
+    } else {
+      // alert('Invalid email address!');
+      return false;
+    }
   };
 
   return (
